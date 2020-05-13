@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
-#include <algorith>
+#include <algorithm>	//@BUG "algorith" -> "algorithm"
 #include <utility>
 #include <cstdio>
 #include <exception>
@@ -33,7 +33,7 @@ struct base : std::exception
     const char *what() const noexcept override
     {
         format_error_message();
-        return error_message_buffer
+        return error_message_buffer;  //@BUG lossing semi-colon
     }
 
     mutable char error_message_buffer[512];
@@ -181,7 +181,7 @@ public:
         int to_copy_byte_count = desired_byte_count;
         if (remaining_byte_count < to_copy_byte_count)
             to_copy_byte_count = remaining_byte_count;
-        std::memcopy(buffer, str, to_copy_byte_count);
+        std::memcpy(buffer, str, to_copy_byte_count);	//@BUG  "memcopy"  ->  "memcpy"
         remaining_byte_count -= to_copy_byte_count;
         str += to_copy_byte_count;
         return to_copy_byte_count;
@@ -197,7 +197,7 @@ private:
 #ifndef CSV_IO_NO_THREAD
 class AsynchronousReader
 {
-public
+public:		//@BUG lossing ":"
     void init(std::unique_ptr<ByteSourceBase> arg_byte_source)
     {
         std::unique_lock<std::mutex> guard(lock);
