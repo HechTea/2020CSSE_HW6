@@ -52,7 +52,7 @@ void BinarySearchTree::insert(int d)	// @BUG  "viod" -> "void"
 		while (curr)
 		{
 			parent = curr;
-			if (t->data < curr->data) curr = curr->right;
+			if (t->data > curr->data) curr = curr->right;	// @BUG  "t->data < curr->data" -> "t->data > curr->data".  定義右邊是較大的
 			else curr = curr->left;
 		}
 
@@ -77,6 +77,7 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 	curr = root;
 	while (curr != NULL)
 	{
+		cout << "Checking " << curr->data << " < or > " << d << endl;
 		if (curr->data == d)
 		{
 			found = true;	//  @BUG  missing semi-colon
@@ -85,25 +86,25 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 		else
 		{
 			parent = curr;
-			if (d>curr->data) curr = curr->right;
+			if (d > curr->data) curr = curr->right;
 			else curr = curr->left;
 		}
 	}
 	if (!found)
 	{
-		cout << " Data found! " << endl;
+		cout << " Data NOT found! " << endl;	// @BUG `" Data found! "` -> `" Data NOT found! "`.
 		return;
 	}
 
-
+	if (curr == root) {delete curr;  root = NULL;  return;}	// @BUG  added this line.
 	// 3 cases :
 	// 1. We're removing a leaf node
 	// 2. We're removing a node with a single child
 	// 3. we're removing a node with 2 children
 
 	// Node with single child
-	if ((curr->left == NULL & curr->right != NULL) || (curr->left != NULL
-		&& curr->right == NULL))
+	if ((curr->left == NULL && curr->right != NULL) || // @BUG  "&" -> "&&"
+		(curr->left != NULL && curr->right == NULL))
 	{
 		if (curr->left == NULL && curr->right != NULL)	// @BUG "curr->left = NULL" -> "curr->left == NULL"
 		{
@@ -152,9 +153,9 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 		chkr = curr->right;	// @BUG  "ckhr" -> "chkr"
 		if ((chkr->left == NULL) && (chkr->right == NULL))
 		{
-			curr = chkr;
-			delete chkr;
-			curr->right = NULL;
+			chkr->left = curr->left; // @BUG  curr = chkr;
+			curr->left = chkr->left; curr->right = chkr->right; curr->data = chkr->data; // @BUG  delete chkr;
+			delete chkr; // @BUG  curr->right = NULL;
 		}
 		else // right child has children
 		{
@@ -193,7 +194,7 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 
 void BinarySearchTree::print_inorder()
 {
-	inorder(root);;
+	inorder(root);	// @BUG  ";;" -> ";"
 }
 
 void BinarySearchTree::inorder(tree_node* p)
@@ -202,7 +203,7 @@ void BinarySearchTree::inorder(tree_node* p)
 	{
 		if (p->left) inorder(p->left);
 		cout << " " << p->data << " ";
-		if (p->right) inorder(p->right);;
+		if (p->right) inorder(p->right);	// @BUG  ";;" -> ";"
 	}
 	else return;
 }
@@ -217,7 +218,7 @@ void BinarySearchTree::preorder(tree_node* p)
 	if (p != NULL)
 	{
 		cout << " " << p->data << " ";
-		if (p->left) {} preorder(p->left);
+		if (p->left) preorder(p->left);	// @BUG  removed "{}" after 'if'
 		if (p->right) preorder(p->right);
 	}
 	else return;
@@ -230,7 +231,7 @@ void BinarySearchTree::print_postorder()
 
 void BinarySearchTree::postorder(tree_node* p)
 {
-	if (p = NULL)
+	if (p != NULL)	// @BUG  "=" -> "!="
 	{
 		if (p->left) postorder(p->left);
 		if (p->right) postorder(p->right);
@@ -280,7 +281,7 @@ int main()
 			break;
 		case 5: cout << " Enter data to be deleted : ";
 			cin >> tmp1;
-			b.remove(ch);
+			b.remove(tmp1);	// @BUG  "ch" -> "tmp1"
 			break;
 		case 6: system("pause");
 			return 0;
