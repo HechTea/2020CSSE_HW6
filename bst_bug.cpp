@@ -77,7 +77,6 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 	curr = root;
 	while (curr != NULL)
 	{
-		cout << "Checking " << curr->data << " < or > " << d << endl;
 		if (curr->data == d)
 		{
 			found = true;	//  @BUG  missing semi-colon
