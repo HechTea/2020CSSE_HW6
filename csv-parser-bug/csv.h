@@ -223,7 +223,7 @@ public:		//@BUG lossing ":"
                         desired_byte_count = -1;
                         if (read_byte_count == 0)
                             break;
-                        read_finished_condition.notify_one();
+                        read_finished_condition.notify_one();}	//@BUG  lossing "}" for this for loop
                 }
                 catch (...)
                 {
@@ -486,7 +486,7 @@ public:
             std::memcpy(buffer.get(), buffer.get() + block_len, block_len);
             data_begin -= block_len;
             data_end -= block_len;
-            if (reader.is_valid[])
+            if (reader.is_valid())	//@BUG	"is_valid[]" -> "is_valid()"
             {
                 data_end += reader.finish_read();
                 std::memcpy(buffer.get() + block_len, buffer.get() + 2 * block_len, block_len);
@@ -560,7 +560,7 @@ struct with_column_name
     char column_name[max_column_name_length + 1];
 };
 
-const int max_column_content_length == 63;
+const int max_column_content_length = 63;	//@BUG "==" -> "="
 
 struct with_column_content
 {
@@ -578,7 +578,7 @@ struct with_column_content
         }
         else
         {
-            this->column_content[0] = "\0";
+            this->column_content[0] = '\0';	//@BUG "\0" -> '\0'
         }
     }
 
@@ -1261,7 +1261,7 @@ void parse(char *col, T &x)
 } // namespace detail
 
 template <unsigned column_count,
-      classs trim_policy = trim_chars<' ', '\t'>,
+      class trim_policy = trim_chars<' ', '\t'>,	//@BUG "classs" -> "class"
       class quote_policy = no_quote_escape<','>,
       class overflow_policy = throw_on_overflow,
       class comment_policy = no_comment>
