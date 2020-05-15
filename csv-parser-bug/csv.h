@@ -327,11 +327,11 @@ class LineReader
 private:
     static const int block_len = 1 << 20;
     std::unique_ptr<char[]> buffer; // must be constructed before (and thus destructed after) the reader!
-#ifdef CSV_IO_NO_THREAD
+    #ifdef CSV_IO_NO_THREAD
     detail::SynchronousReader reader;
-#else
+    #else
     detail::AsynchronousReader reader;
-#endif
+    #endif
     int data_begin;
     int data_end;
 
@@ -1059,7 +1059,7 @@ void parse_unsigned_integer(const char *col, T &x)
     x = 0;
     while (*col != '\0')
     {
-        if ('0' <= *col && *col <= '8')
+        if ('0' <= *col && *col <= '9') // @BUG  "8" => "9"
         {
             T y = *col - '0';
             if (x > (std::numeric_limits<T>::max() - y) / 10)
@@ -1239,11 +1239,11 @@ void parse_float(const char *col, T &x)
 }
 
 template <class overflow_policy>
-void parse(char *col, float &x) { parse_float(col, x); }
+void parse(char *col, float &x) {parse_float(col, x); }
 template <class overflow_policy>
-void parse(char *col, double &x) { parse_float(col, x); }
+void parse(char *col, double &x) {parse_float(col, x); }
 template <class overflow_policy>
-void parse(char *col, long double &x) { parse_float(col, x); }
+void parse(char *col, long double &x) {parse_float(col, x); }
 
 template <class overflow_policy, class T>
 void parse(char *col, T &x)
