@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
-#include <algorithm>	//@BUG "algorith" -> "algorithm"
+#include <algorithm>	//@BUG "algorith" -> "algorithm"  -- Spelling error
 #include <utility>
 #include <cstdio>
 #include <exception>
@@ -33,7 +33,7 @@ struct base : std::exception
     const char *what() const noexcept override
     {
         format_error_message();
-        return error_message_buffer;  //@BUG lossing semi-colon
+        return error_message_buffer;  //@BUG -- Missing semi-colon
     }
 
     mutable char error_message_buffer[512];
@@ -181,7 +181,7 @@ public:
         int to_copy_byte_count = desired_byte_count;
         if (remaining_byte_count < to_copy_byte_count)
             to_copy_byte_count = remaining_byte_count;
-        std::memcpy(buffer, str, to_copy_byte_count);	//@BUG  "memcopy"  ->  "memcpy"
+        std::memcpy(buffer, str, to_copy_byte_count);	//@BUG  "memcopy"  ->  "memcpy"  -- Spelling error
         remaining_byte_count -= to_copy_byte_count;
         str += to_copy_byte_count;
         return to_copy_byte_count;
@@ -197,7 +197,7 @@ private:
 #ifndef CSV_IO_NO_THREAD
 class AsynchronousReader
 {
-public:		//@BUG lossing ":"
+public:		//@BUG  -- Missing colon
     void init(std::unique_ptr<ByteSourceBase> arg_byte_source)
     {
         std::unique_lock<std::mutex> guard(lock);
@@ -223,7 +223,7 @@ public:		//@BUG lossing ":"
                         desired_byte_count = -1;
                         if (read_byte_count == 0)
                             break;
-                        read_finished_condition.notify_one();}	//@BUG  lossing "}" for this for loop
+                        read_finished_condition.notify_one();}	//@BUG  -- Missing right curly-bracket
                 }
                 catch (...)
                 {
@@ -486,7 +486,7 @@ public:
             std::memcpy(buffer.get(), buffer.get() + block_len, block_len);
             data_begin -= block_len;
             data_end -= block_len;
-            if (reader.is_valid())	//@BUG	"is_valid[]" -> "is_valid()"
+            if (reader.is_valid())	//@BUG	"is_valid[]" -> "is_valid()"  -- Parentheses used incorrectly
             {
                 data_end += reader.finish_read();
                 std::memcpy(buffer.get() + block_len, buffer.get() + 2 * block_len, block_len);
@@ -560,7 +560,7 @@ struct with_column_name
     char column_name[max_column_name_length + 1];
 };
 
-const int max_column_content_length = 63;	//@BUG "==" -> "="
+const int max_column_content_length = 63;	//@BUG "==" -> "="  -- Data-handling problem
 
 struct with_column_content
 {
@@ -578,7 +578,7 @@ struct with_column_content
         }
         else
         {
-            this->column_content[0] = '\0';	//@BUG "\0" -> '\0'
+            this->column_content[0] = '\0';	//@BUG "\0" -> '\0'  -- Variable-type incorrect
         }
     }
 
@@ -1059,7 +1059,7 @@ void parse_unsigned_integer(const char *col, T &x)
     x = 0;
     while (*col != '\0')
     {
-        if ('0' <= *col && *col <= '9') // @BUG  "8" => "9"
+        if ('0' <= *col && *col <= '9') // @BUG  "8" => "9"  -- Flag or index set incorrectly
         {
             T y = *col - '0';
             if (x > (std::numeric_limits<T>::max() - y) / 10)
@@ -1261,7 +1261,7 @@ void parse(char *col, T &x)
 } // namespace detail
 
 template <unsigned column_count,
-      class trim_policy = trim_chars<' ', '\t'>,	//@BUG "classs" -> "class"
+      class trim_policy = trim_chars<' ', '\t'>,	//@BUG "classs" -> "class"  -- Spelling error
       class quote_policy = no_quote_escape<','>,
       class overflow_policy = throw_on_overflow,
       class comment_policy = no_comment>
