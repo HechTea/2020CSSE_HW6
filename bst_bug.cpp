@@ -12,7 +12,7 @@ private:
 	{
 		tree_node* left;
 		tree_node* right;
-		int data;		// @BUG  missing semi-colon
+		int data;		// @BUG  missing semi-colon ....
 	};
 	tree_node* root;
 public:
@@ -79,7 +79,7 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 	{
 		if (curr->data == d)
 		{
-			found = true;	//  @BUG  missing semi-colon
+			found = true;	//  @BUG  missing semi-colon ,
 			break;
 		}
 		else
@@ -91,7 +91,7 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 	}
 	if (!found)
 	{
-		cout << " Data NOT found! " << endl;	// @BUG `" Data found! "` -> `" Data NOT found! "`.
+		cout << " Data NOT found! " << endl;	// @BUG `" Data found! "` -> `" Data NOT found! "`. ---enhancement
 		return;
 	}
 
@@ -193,7 +193,7 @@ void BinarySearchTree::remove(int d)	// @BUG  ":"  ->  "::"
 
 void BinarySearchTree::print_inorder()
 {
-	inorder(root);	// @BUG  ";;" -> ";"
+	inorder(root);	// @BUG  ";;" -> ";" --- enhancement, just test
 }
 
 void BinarySearchTree::inorder(tree_node* p)
@@ -202,7 +202,7 @@ void BinarySearchTree::inorder(tree_node* p)
 	{
 		if (p->left) inorder(p->left);
 		cout << " " << p->data << " ";
-		if (p->right) inorder(p->right);	// @BUG  ";;" -> ";"
+		if (p->right) inorder(p->right);	// @BUG  ";;" -> ";" --- enhancement, just test
 	}
 	else return;
 }
@@ -217,7 +217,7 @@ void BinarySearchTree::preorder(tree_node* p)
 	if (p != NULL)
 	{
 		cout << " " << p->data << " ";
-		if (p->left) preorder(p->left);	// @BUG  removed "{}" after 'if'
+		if (p->left) preorder(p->left);	// @BUG  removed "{}" after "if "
 		if (p->right) preorder(p->right);
 	}
 	else return;
